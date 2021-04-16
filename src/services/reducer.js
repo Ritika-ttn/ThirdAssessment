@@ -27,6 +27,7 @@ export default function ApiReducer(state = initialState, action) {
     case ApiTypes.DELETENOTES:
       return {
         ...state,
+        // notes: state.notes.filter((item) => item.title !== action.payload),
         notes: [...action.payload.response],
       };
     default:

@@ -9,13 +9,14 @@ import {
   Modal,
   FlatList,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icons from 'react-native-vector-icons/Ionicons';
 import PlusIcon from 'react-native-vector-icons/AntDesign';
 import CrossIcon from 'react-native-vector-icons/Entypo';
 import {connect} from 'react-redux';
-
+import AddNotes from './AddNotes';
 import {LoginUser, Notes, NotesGet} from '../services/action';
 class MenuScreen extends Component {
   constructor(props) {
@@ -24,31 +25,13 @@ class MenuScreen extends Component {
       title: '',
       data: '',
       notes: {},
+      isRefreshing: false,
       modalVisible: false,
     };
     this.props.NotesGet(this.props.id);
   }
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.id !== this.props.id) {
-  //     this.props.NotesGet(this.props.id);
-  //   }
-  // }
-  // renderCategoryList = () => {
-  //   const categories = {};
-  //   let lastNoteTitle;
-  //   if (this.props.listData) {
-  //     lastNoteTitle = this.props.listData[this.props.listData.length - 1];
-  //   }
-  //   this.props.listData &&
-  //     this.props.listData.map((item) => {
-  //       const title = item.title;
-  //       if (categories.hasOwnProperty(item.title)) {
-  //         categories[title] += 1;
-  //       } else {
-  //         categories[title] = 1;
-  //       }
-  //     });
-  // };
+  componentDidMount() {}
+
   setModalVisible = (visible) => {
     this.setState({modalVisible: visible});
   };
@@ -60,8 +43,14 @@ class MenuScreen extends Component {
     this.props.Notes(data, this.props.id);
     this.setState({modalVisible: false});
     this.props.NotesGet(this.props.id);
-    // this.props.navigation.navigate('AddNotes');
   };
+  refreshList = (refresh) => {
+    this.setState({
+      isRefreshing: refresh,
+    });
+    this.props.NotesGet(this.props.id);
+  };
+
   renderItem = ({item}) => {
     const count = 0;
     return (
@@ -69,12 +58,32 @@ class MenuScreen extends Component {
         <View style={styles.listItemContainer}>
           <TouchableOpacity
             onPress={() => this.props.navigation.navigate('AddNotes', {item})}>
-            <Text style={styles.txt}>{item.title}</Text>
+            <View style={styles.data}>
+              <Text style={styles.txt}>{item.title}</Text>
+              <View style={styles.count}>
+                <Text style={styles.counttxt}>{item.data.length}</Text>
+              </View>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
     );
   };
+  result = this.props.listData.reduce((accumulator, currentValue) => {
+    var newtitle = currentValue.title;
+    var data = currentValue.data;
+    var flag = true;
+    accumulator.map((item, index) => {
+      if (newtitle === item.title) {
+        flag = false;
+        accumulator[index].data.push(data);
+      }
+    });
+    if (flag) {
+      accumulator.push({title: newtitle, data: [data]});
+    }
+    return accumulator;
+  }, []);
   render() {
     return (
       <>
@@ -86,9 +95,20 @@ class MenuScreen extends Component {
           </View>
           <View style={styles.listConatiner}>
             <FlatList
-              data={this.props.listData}
+              data={this.result}
               renderItem={this.renderItem}
               keyExtractor={(item) => item.id}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.isRefreshing}
+                  onRefresh={() => {
+                    this.refreshList(true);
+                    setTimeout(() => {
+                      this.refreshList(false);
+                    }, 1000);
+                  }}
+                />
+              }
             />
           </View>
           <ScrollView>
@@ -220,6 +240,26 @@ const styles = StyleSheet.create({
   submitIcon: {
     alignSelf: 'center',
     marginTop: 50,
+  },
+  data: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginRight: 50,
+  },
+  count: {
+    borderColor: '#f5afc0',
+    borderWidth: 1,
+    borderRadius: 100,
+    paddingLeft: 23,
+    paddingRight: 23,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: '#f5afc0',
+  },
+  counttxt: {
+    fontSize: 30,
+    color: 'darkblue',
+    fontWeight: '700',
   },
 });
 const mapStateToProps = (state) => {
