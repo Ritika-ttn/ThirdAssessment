@@ -17,7 +17,7 @@ import CrossIcon from 'react-native-vector-icons/Entypo';
 import {connect} from 'react-redux';
 
 import {LoginUser, Notes, NotesGet} from '../services/action';
-class MenuScreen extends Component {
+class DarkMenuScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -96,13 +96,13 @@ class MenuScreen extends Component {
               <View>
                 <TouchableOpacity
                   onPress={() => this.props.navigation.openDrawer()}>
-                  <Icons name={'menu'} size={60} color={'blue'} />
+                  <Icons name={'menu'} size={60} color={'white'} />
                   <Text style={styles.icontxt}>Menu</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.plusIcon}>
                 <TouchableOpacity onPress={() => this.setModalVisible(true)}>
-                  <PlusIcon name={'pluscircle'} size={70} color={'red'} />
+                  <PlusIcon name={'pluscircle'} size={70} color={'white'} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -146,12 +146,12 @@ class MenuScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
   },
   icontxt: {
     fontSize: 15,
     marginLeft: 10,
-    color: 'red',
+    color: 'white',
   },
   header: {
     marginTop: 40,
@@ -160,12 +160,12 @@ const styles = StyleSheet.create({
   },
   firstHeaderTxt: {
     fontSize: 40,
-    color: 'red',
+    color: 'white',
     fontWeight: '800',
   },
   secondheaderTxt: {
     fontSize: 40,
-    color: 'darkblue',
+    color: 'white',
     fontWeight: '800',
   },
   plusIcon: {
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 30,
-    color: 'darkblue',
+    color: 'white',
     fontWeight: '700',
     marginLeft: 30,
   },
@@ -232,4 +232,4 @@ const mapDispatchToProps = (dispatch) => ({
   Notes: (data, id) => dispatch(Notes(data, id)),
   NotesGet: (id) => dispatch(NotesGet(id)),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(MenuScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(DarkMenuScreen);

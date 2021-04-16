@@ -25,7 +25,7 @@ class DrawerScreen extends React.Component {
     this.setState({
       istoggle: value,
     });
-    this.props.navigation.navigate('MenuScreen');
+    // this.props.navigation.navigate('DarkMenuScreen');
   };
 
   CustomDrawerContent = (props) => {

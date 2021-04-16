@@ -9,6 +9,7 @@ import DrawerScreen from './DrawerScreen';
 import {Provider} from 'react-redux';
 import store from '../store/index';
 import AddNotes from './AddNotes';
+import DarkMenuScreen from './DarkMenuScreen';
 const Stack = createStackNavigator();
 
 function Navigation() {
@@ -33,6 +34,13 @@ function Navigation() {
           <Stack.Screen
             name="MenuScreen"
             component={MenuScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="DarkMenuScreen"
+            component={DarkMenuScreen}
             options={{
               headerShown: false,
             }}
