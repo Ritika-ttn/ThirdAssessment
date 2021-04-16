@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "970774513004",
+    "project_id": "assessment-1728d",
+    "storage_bucket": "assessment-1728d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970774513004:android:043c275875c9c75f13df49",
+        "android_client_info": {
+          "package_name": "com.third_assessment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970774513004-2a75oh9hu8vohpmeu5ec5vdl19bbouhi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDA60EFZZGkkMlcCstPxGIR0U9awIBAka8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970774513004-2a75oh9hu8vohpmeu5ec5vdl19bbouhi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "970774513004-srvhqm410bdt68g9crgh8earj1vgroli.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.Third-Assessment"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

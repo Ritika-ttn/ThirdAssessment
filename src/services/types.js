@@ -1,0 +1,11 @@
+const ApiTypes = {
+  CREATE_USER: 'CREATE_USER',
+  LOGIN_USER: 'LOGIN_USER',
+  SOCIAL_USER: 'SOCIAL_USER',
+  NOTES: 'NOTES',
+  GETNOTES: 'GETNOTES',
+  DELETENOTES: 'DELETENOTES',
+};
+export default {
+  ...ApiTypes,
+};
