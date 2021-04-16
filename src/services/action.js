@@ -31,7 +31,7 @@ export const SignupUser = (user) => async (dispatch) => {
   }
 };
 
-export const LoginUser = (data, callback) => async (dispatch) => {
+export const LoginUser = (data, status) => async (dispatch) => {
   const url = authenticateURL;
   try {
     const response = await fetch(url, {
@@ -47,20 +47,20 @@ export const LoginUser = (data, callback) => async (dispatch) => {
     const result = await response.json();
     console.log('Login', result);
     if (result.status) {
-      callback(result.status);
+      status(result.status);
       dispatch({
         type: ApiTypes.LOGIN_USER,
         id: result.id,
       });
     } else {
-      callback(result.message);
+      status(result.message);
       console.log('Error : ', result.message);
     }
   } catch (error) {
     console.log(error);
   }
 };
-export const LoginGoogle = (socialId, callback) => async (dispatch) => {
+export const LoginGoogle = (socialId, status) => async (dispatch) => {
   const url = authenticateURL;
   try {
     const response = await fetch(url, {
@@ -75,13 +75,13 @@ export const LoginGoogle = (socialId, callback) => async (dispatch) => {
     const result = await response.json();
     console.log('Login', result);
     if (result.status) {
-      callback(result.status);
+      status(result.status);
       dispatch({
         type: ApiTypes.SOCIAL_USER,
         id: result.id,
       });
     } else {
-      callback(result.message);
+      status(result.message);
       console.log('Error : ', result.message);
     }
   } catch (error) {

@@ -66,7 +66,7 @@ class Login extends Component {
     }
   };
   checkFeild = async () => {
-    if (!/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/.test(this.state.user)) {
+    if (!/^[a-zA-Z0-9]$/.test(this.state.user)) {
       Alert.alert('UserName', 'It should contain only alphabets');
     }
     if (
@@ -85,11 +85,11 @@ class Login extends Component {
       password: this.state.pass,
     };
 
-    const callback = (message) => {
+    const status = (message) => {
       if (message === true) {
         this.props.navigation.navigate('DrawerScreen');
       } else {
-        Alert.alert('Error', message, [
+        Alert.alert('Error', 'Not a Valid User', [
           {
             text: 'Close',
             style: 'cancel',
@@ -97,7 +97,7 @@ class Login extends Component {
         ]);
       }
     };
-    this.props.LoginUser(data, callback);
+    this.props.LoginUser(data, status);
   };
 
   render() {
@@ -296,7 +296,7 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = (dispatch) => ({
-  LoginUser: (data, callback) => dispatch(LoginUser(data, callback)),
+  LoginUser: (data, status) => dispatch(LoginUser(data, status)),
   LoginGoogle: (id) => dispatch(LoginGoogle(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
