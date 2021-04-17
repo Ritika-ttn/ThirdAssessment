@@ -17,17 +17,15 @@ import Icons from 'react-native-vector-icons/AntDesign';
 import TwitterIcons from 'react-native-vector-icons/Entypo';
 import {connect} from 'react-redux';
 
-import {LoginUser, LoginGoogle} from '../services/action';
+import {LoginUser, LoginGoogle, SignupUser} from '../services/action';
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // loginScreen: true,
-      // drawer: false,
       user: '',
       pass: '',
+      socialId: null,
       password: true,
-      login: false,
       userDetails: [],
       uriIcon: require('../assets/user.png'),
     };
@@ -42,8 +40,20 @@ class Login extends Component {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      this.setState({userDetails: userInfo.user, login: true});
-      this.props.LoginGoogle(this.state.userDetails.id);
+      this.setState({userDetails: userInfo.user});
+      this.props.LoginGoogle(this.state.userDetails.id, status);
+      const status = (message) => {
+        if (message === true) {
+          this.props.navigation.navigate('DrawerScreen');
+        } else {
+          Alert.alert('Error', 'Not a Valid User', [
+            {
+              text: 'Close',
+              style: 'cancel',
+            },
+          ]);
+        }
+      };
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         alert('Cancel');
@@ -60,13 +70,13 @@ class Login extends Component {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
-      this.setState({userDetails: null, login: false});
+      this.setState({userDetails: null});
     } catch (error) {
       console.error(error);
     }
   };
   checkFeild = async () => {
-    if (!/^[a-zA-Z0-9]$/.test(this.state.user)) {
+    if (!/^\S{4,}$/.test(this.state.user)) {
       Alert.alert('UserName', 'It should contain only alphabets');
     }
     if (
@@ -83,6 +93,9 @@ class Login extends Component {
     const data = {
       username: this.state.user,
       password: this.state.pass,
+      name: this.state.user,
+      id: this.state.socialId,
+      mobile: this.state.socialId,
     };
 
     const status = (message) => {
@@ -104,7 +117,6 @@ class Login extends Component {
     return (
       <>
         <SafeAreaView />
-        {/* {this.state.loginScreen ? ( */}
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.txt}>Login</Text>
@@ -297,6 +309,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => ({
   LoginUser: (data, status) => dispatch(LoginUser(data, status)),
-  LoginGoogle: (id) => dispatch(LoginGoogle(id)),
+  LoginGoogle: (id, status) => dispatch(LoginGoogle(id, status)),
+  SignupUser: (user) => dispatch(SignupUser(user)),
+  // NotesGet: (id) => dispatch(NotesGet(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

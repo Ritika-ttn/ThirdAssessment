@@ -5,6 +5,7 @@ const ApiTypes = {
   NOTES: 'NOTES',
   GETNOTES: 'GETNOTES',
   DELETENOTES: 'DELETENOTES',
+  DARK_MODE: 'DARK_MODE',
 };
 export default {
   ...ApiTypes,

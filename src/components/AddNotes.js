@@ -21,6 +21,7 @@ class AddNotes extends Component {
   }
   componentDidMount() {
     this.Animation();
+    this.props.Delete();
   }
   Animation = () => {
     Animated.timing(this.state.fadeAnim, {
@@ -37,7 +38,7 @@ class AddNotes extends Component {
   };
   deleteData = (noteid) => {
     this.props.Delete(this.props.id, noteid);
-    // this.props.NotesGet(this.props.id);
+    this.props.NotesGet(this.props.id);
   };
 
   DataStyling = ({item}) => {
@@ -51,7 +52,9 @@ class AddNotes extends Component {
             },
           ]}>
           <View style={styles.box}>
-            <Text style={styles.txt}>{item.data}</Text>
+            <Text style={this.props.dark ? styles.darktxt : styles.txt}>
+              {item.data}
+            </Text>
             <TouchableOpacity onPress={() => this.deleteData(item.id)}>
               <Icons name={'cross'} size={40} />
             </TouchableOpacity>
@@ -71,7 +74,7 @@ class AddNotes extends Component {
     return (
       <>
         <SafeAreaView />
-        <View style={styles.container}>
+        <View style={this.props.dark ? styles.DarkContainer : styles.container}>
           <Animated.View
             style={[
               styles.header,
@@ -79,9 +82,17 @@ class AddNotes extends Component {
                 opacity: this.state.fadeAnim,
               },
             ]}>
-            <Text style={styles.headerTxt}>{item.title}</Text>
+            <Text
+              style={this.props.dark ? styles.darkHeaderTxt : styles.headerTxt}>
+              {item.title}
+            </Text>
             <View style={styles.headerTxtCounts}>
-              <Text style={styles.headerTxt}>{Data.length}</Text>
+              <Text
+                style={
+                  this.props.dark ? styles.darkHeaderTxt : styles.headerTxt
+                }>
+                {Data.length}
+              </Text>
             </View>
           </Animated.View>
           <FlatList
@@ -90,6 +101,7 @@ class AddNotes extends Component {
             keyExtractor={(key) => key.id}
           />
           {console.log('data', item)}
+          {console.log('NOTSGS', this.props.notes)}
         </View>
       </>
     );
@@ -99,6 +111,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  DarkContainer: {
+    flex: 1,
+    backgroundColor: 'black',
   },
   header: {
     marginTop: 20,
@@ -110,6 +126,11 @@ const styles = StyleSheet.create({
   headerTxt: {
     fontSize: 40,
     color: 'red',
+    fontWeight: '800',
+  },
+  darkHeaderTxt: {
+    fontSize: 40,
+    color: 'white',
     fontWeight: '800',
   },
   headerTxtCounts: {
@@ -124,6 +145,11 @@ const styles = StyleSheet.create({
   },
   txt: {
     color: 'blue',
+    fontSize: 20,
+    marginLeft: 30,
+  },
+  darktxt: {
+    color: 'lightblue',
     fontSize: 20,
     marginLeft: 30,
   },

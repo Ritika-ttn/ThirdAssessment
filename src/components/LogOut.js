@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
-import Login from './Login';
+import {View} from 'react-native';
 class LogOut extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +8,16 @@ class LogOut extends Component {
     };
   }
   render() {
-    return this.state.loginScreen ? <Login /> : null;
+    return (
+      <View>
+        {this.state.loginScreen
+          ? this.props.navigation.reset({
+              index: 0,
+              routes: [{name: 'Login'}],
+            })
+          : null}
+      </View>
+    );
   }
 }
 export default LogOut;

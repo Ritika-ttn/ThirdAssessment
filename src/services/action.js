@@ -111,7 +111,7 @@ export const Notes = (data, id) => async (dispatch) => {
     if (result.status === true) {
       dispatch({
         type: ApiTypes.NOTES,
-        payload: result,
+        payload: result.data,
       });
     } else {
       console.log('Error : ', result.message);
@@ -126,10 +126,31 @@ export const NotesGet = (id) => async (dispatch) => {
   try {
     const response = await fetch(url, {
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const result = await response.json();
     console.log('NotesGet', result);
     if (result.status === true) {
+      // const resultFinal = result.response.reduce(
+      //   (accumulator, currentValue) => {
+      //     var newtitle = currentValue.title;
+      //     var data = currentValue.data;
+      //     var flag = true;
+      //     accumulator.map((item, index) => {
+      //       if (newtitle === item.title) {
+      //         flag = false;
+      //         accumulator[index].data.push(data);
+      //       }
+      //     });
+      //     if (flag) {
+      //       accumulator.push({title: newtitle, data: [data]});
+      //     }
+      //     return accumulator;
+      //   },
+      //   [],
+      // );
       dispatch({
         type: ApiTypes.GETNOTES,
         payload: result,
@@ -161,4 +182,9 @@ export const Delete = (id, noteid) => async (dispatch) => {
   } catch (error) {
     console.log('Bug', error);
   }
+};
+export const DarkMode = () => {
+  return {
+    type: ApiTypes.DARK_MODE,
+  };
 };

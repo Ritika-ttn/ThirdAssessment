@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from './Login';
@@ -9,7 +8,7 @@ import DrawerScreen from './DrawerScreen';
 import {Provider} from 'react-redux';
 import store from '../store/index';
 import AddNotes from './AddNotes';
-import DarkMenuScreen from './DarkMenuScreen';
+
 const Stack = createStackNavigator();
 
 function Navigation() {
@@ -38,13 +37,7 @@ function Navigation() {
               headerShown: false,
             }}
           />
-          <Stack.Screen
-            name="DarkMenuScreen"
-            component={DarkMenuScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
+
           <Stack.Screen
             name="DrawerScreen"
             component={DrawerScreen}

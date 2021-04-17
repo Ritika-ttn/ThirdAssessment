@@ -24,6 +24,7 @@ class Signup extends Component {
       confirmpass: '',
       email: '',
       password: true,
+      socialId: null,
     };
   }
 
@@ -60,6 +61,15 @@ class Signup extends Component {
     if (this.state.pass !== this.state.confirmpass) {
       Alert.alert('Password', 'password should match');
     }
+
+    const user = {
+      username: this.state.email,
+      password: this.state.pass,
+      name: this.state.user,
+      mobile: this.state.socialId,
+      socialId: this.state.socialId,
+    };
+    this.props.SignupUser(user);
     if (
       this.state.user !== '' &&
       this.state.pass !== '' &&
@@ -68,14 +78,6 @@ class Signup extends Component {
     ) {
       this.props.navigation.navigate('Login');
     }
-    const user = {
-      username: this.state.email,
-      password: this.state.pass,
-      name: this.state.user,
-      mobile: 9999373232,
-      socialId: null,
-    };
-    this.props.SignupUser(user);
   };
   loginScreen = () => {
     this.setState({
@@ -86,7 +88,7 @@ class Signup extends Component {
     return (
       <>
         <SafeAreaView />
-        {/* {this.state.SignupScreen ? ( */}
+
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.txt}>Sign Up</Text>
@@ -151,11 +153,7 @@ class Signup extends Component {
             <Text style={styles.bottomtxt}>Terms of servises</Text>
           </View>
         </View>
-        {/* ) : this.state.drawer ? (
-          <DrawerScreen />
-        ) : (
-          <Login />
-        )} */}
+
         {console.log(this.props.listData)}
       </>
     );

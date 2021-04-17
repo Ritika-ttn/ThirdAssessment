@@ -1,44 +1,38 @@
 import * as React from 'react';
-import {Button, View, Text, Switch, StyleSheet} from 'react-native';
+import {View, Switch, StyleSheet} from 'react-native';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItemList,
-  DrawerItem,
 } from '@react-navigation/drawer';
-import {NavigationContainer} from '@react-navigation/native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import Icons from 'react-native-vector-icons/Ionicons';
+
 import MenuScreen from './MenuScreen';
 import LogOut from './LogOut';
-import Login from './Login';
+//import Login from './Login';
+import {connect} from 'react-redux';
+import {DarkMode} from '../services/action';
 const Drawer = createDrawerNavigator();
 
 class DrawerScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      istoggle: false,
-    };
   }
-  onToggle = (value) => {
-    this.setState({
-      istoggle: value,
-    });
-    // this.props.navigation.navigate('DarkMenuScreen');
-  };
 
   CustomDrawerContent = (props) => {
     return (
-      <DrawerContentScrollView {...props}>
+      <DrawerContentScrollView
+        {...props}
+        style={this.props.darkScreen ? styles.drawer : null}>
         <DrawerItemList {...props} />
-
         <View style={styles.toggle}>
           <Switch
-            value={this.state.istoggle}
+            value={this.props.darkScreen}
             trackColor={{false: 'grey', true: 'black'}}
-            thumbColor={this.state.istoggle ? 'darkcyan' : 'black'}
-            onValueChange={(text) => this.onToggle(text)}
+            thumbColor={this.props.darkScreen ? 'darkcyan' : 'white'}
+            onValueChange={(text) => {
+              this.props.DarkMode();
+              props.navigation.closeDrawer();
+            }}
           />
         </View>
       </DrawerContentScrollView>
@@ -47,14 +41,23 @@ class DrawerScreen extends React.Component {
   render() {
     return (
       <Drawer.Navigator
+        drawerContentOptions={{
+          activeTintColor: this.props.darkScreen ? 'white' : 'black',
+          inactiveTintColor: this.props.darkScreen ? 'white' : 'black',
+          itemStyle: {marginVertical: 5, fontSize: 20},
+        }}
         drawerContent={(props) => <this.CustomDrawerContent {...props} />}>
-        <Drawer.Screen name="Menu" component={MenuScreen} />
+        <Drawer.Screen
+          name="MenuScreen"
+          component={MenuScreen}
+          options={{drawerLabel: 'Menu', color: 'red'}}
+        />
         <Drawer.Screen name="LogOut" component={LogOut} />
       </Drawer.Navigator>
     );
   }
 }
-export default DrawerScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -62,4 +65,19 @@ const styles = StyleSheet.create({
   toggle: {
     alignSelf: 'center',
   },
+  drawer: {
+    backgroundColor: 'darkblue',
+  },
 });
+const mapDispatchToProps = (dispatch) => {
+  return {
+    DarkMode: () => dispatch(DarkMode()),
+  };
+};
+const mapStateToProps = (state) => {
+  return {
+    id: state.id,
+    darkScreen: state.darkScreen,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerScreen);
