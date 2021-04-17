@@ -15,4 +15,7 @@
 ![output8](./src/assets/output8.png)
 ![output7](./src/assets/output7.png)
 
+After Deleting Notes
 
+![output15](./src/assets/output15.png)
+![output16](./src/assets/output16.png)
