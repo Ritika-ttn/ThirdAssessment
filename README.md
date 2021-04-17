@@ -1,6 +1,6 @@
 <DIV align="center">THIRD ASSESSMENT</DIV>
 
-![output1](./src/assets/output1.png){:height="20%" width="20%"}
+![output1](./src/assets/output1.png&s=200){:height="20%" width="20%"}
 ![output2](./src/assets/output2.png){:height="20%" width="50%"}
 ![output3](./src/assets/output3.png){:height="20%" width="50%"}
 ![output4](./src/assets/output4.png){:height="20%" width="50%"}
