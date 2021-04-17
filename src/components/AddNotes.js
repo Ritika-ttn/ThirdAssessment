@@ -87,12 +87,7 @@ class AddNotes extends Component {
               {item.title}
             </Text>
             <View style={styles.headerTxtCounts}>
-              <Text
-                style={
-                  this.props.dark ? styles.darkHeaderTxt : styles.headerTxt
-                }>
-                {Data.length}
-              </Text>
+              <Text style={styles.headerTxt}>{Data.length}</Text>
             </View>
           </Animated.View>
           <FlatList

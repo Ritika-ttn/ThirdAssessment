@@ -9,6 +9,7 @@ import {
   FlatList,
   RefreshControl,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icons from 'react-native-vector-icons/Ionicons';
 import PlusIcon from 'react-native-vector-icons/AntDesign';
@@ -34,6 +35,23 @@ class MenuScreen extends Component {
       this.render();
     }
   }
+  saveData = async () => {
+    const obj = this.state;
+    try {
+      await AsyncStorage.setItem('userData', JSON.stringify(obj));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  getData = async () => {
+    try {
+      const data = await AsyncStorage.getItem('userData');
+      const result = JSON.parse(data);
+      this.setState(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   componentDidMount() {
     this.props.NotesGet(this.props.id);
     this.result();
